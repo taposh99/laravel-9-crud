@@ -12,8 +12,8 @@
   </head>
   <body>
       <div class="text-center">
-        <h1>Hello, Crud!</h1>
-        <p>This is a simple CRUD application.</p>
+        <h1>Hello</h1>
+        <p>This is a simple application.</p>
         <br>
         <a href="{{ route('create') }}">
           <button class="btn btn-md btn-success"> Create</button>
@@ -32,6 +32,7 @@
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">E-mail</th>
+                <th scope="col">Image</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -44,14 +45,15 @@
                 <td>{{ $student->firstname }}</td>
                 <td>{{ $student->lastname }}</td>
                 <td>{{ $student->email }} </td>
-
+                <td>
+                  <img src=" {{ asset('/images//'.$student->image) }}" alt="" style="height:80px;width:80px;"></td>
                 <td>
                     <div class="btn-group">
                       <a href="{{ route('edit', $student->id) }}">
                         <button class="btn btn-md btn-success me-1 p-1">edit</button>
                       </a>
 
-                    <form action="{{route('delete')}}" method="POST">
+                    <form action="{{route('delete')}}" method="POST" onclick="return confirm('are you sure !!!')">
                         @method('DELETE')
                         @csrf
                         <input type="text" name="student_id" value="{{ $student->id }}" hidden>

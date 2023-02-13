@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\student;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StorestudentRequest;
 use App\Http\Requests\UpdatestudentRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Redis;
+use toastr;
 
 class StudentController extends Controller
 {
@@ -20,6 +24,7 @@ class StudentController extends Controller
     {
         $students = student::all();
         return view('index',compact('students')); 
+        
     }
 
     /**
@@ -40,15 +45,24 @@ class StudentController extends Controller
      */
     public function store(StorestudentRequest $request)
     {
+        // dd($request);
+          // Validate the input
+ 
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+     
 
         student::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
-
+            'image' => $imageName,
+            
         ]);
-        return Redirect::to('/');
-     
+    
+        return Redirect::to('/')->with('success', 'Record created successfully');
+       
+       
     }
 
     /**
@@ -75,10 +89,14 @@ class StudentController extends Controller
 
 
     public function editStore(StorestudentRequest $request)
+
     {
+        
+
        $student = student::find($request->student_id);
         $student->firstname = $request->firstname;
         $student->lastname = $request->lastname;
+        $student->email = $request->email;
         $student->email = $request->email;
         $student->save();
         return Redirect::to('/');

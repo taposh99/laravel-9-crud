@@ -46,7 +46,11 @@
                 <td>{{ $student->lastname }}</td>
                 <td>{{ $student->email }} </td>
                 <td>
-                  <img src=" {{ asset('/images//'.$student->image) }}" alt="" style="height:80px;width:80px;"></td>
+                  <img src=" {{ asset('/images//'.$student->image) }}" alt="" style="height:80px;width:80px;">
+   
+         
+
+                </td>
                 <td>
                     <div class="btn-group">
                       <a href="{{ route('edit', $student->id) }}">

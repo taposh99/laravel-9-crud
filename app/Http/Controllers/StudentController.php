@@ -22,6 +22,7 @@ class StudentController extends Controller
      */
     public function index()
     {
+      
         $students = student::all();
         return view('index',compact('students')); 
         
@@ -45,11 +46,21 @@ class StudentController extends Controller
      */
     public function store(StorestudentRequest $request)
     {
+            $validatedData = $request->validate([
+      
+        'image' => 'nullable', // nullable means the field is optional
+    ]);
         // dd($request);
           // Validate the input
- 
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+          if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+           
+     
+        } else {
+            $imageName = null;
+        }
+
      
 
         student::create([

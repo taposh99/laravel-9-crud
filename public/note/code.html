@@ -1,11 +1,29 @@
 Slug;
-$course->slug=$this->makeSlug($request);
+    public function blog(Request $request)
+    {
+        // dd($request);
+     
 
-private function makeSlug($request){
-    $str=$request->slug;
-   return  preg_replace('/\s+/u','-',trim($str));
-}
+      
+        $blog = new Blog();
+        $blog->color_code = $request->color_code;
+        $blog->category_id = $request->category_id;
+        $blog->sub_category_id = $request->sub_category_id;
+        $blog->slug = $this->makeSlug($request);
 
+        $blog->save();
+        return redirect('/all-blog')->with('message', 'Success');
+    }
+    private function makeSlug($request){
+        if($request->slug){
+            $str=$request->slug;
+            return preg_replace('/\s+/u','-',trim($str));
+        }
+        $str=$request->course_name;
+        return preg_replace('/\s+/u','-',trim($str));
+    }
+
+.....................................................
 image function:
 $course->image=$this->saveImage($request);
 
